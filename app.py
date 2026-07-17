@@ -2,7 +2,7 @@
 app.py
 
 Why do we need it?
-    This is the entry point of DocuMind AI — the Streamlit UI. It ties
+    This is the entry point of Inkfall — the Streamlit UI. It ties
     together all four utils modules: reading PDFs, chunking text, building
     the vector store, and running the conversation chain. It also owns all
     the UI polish from the checklist: header, sidebar upload, progress bar,
@@ -13,7 +13,7 @@ Input:
     chat messages). No function-call input — this is the app runner.
 
 Output:
-    Renders the full DocuMind AI web app in the browser.
+    Renders the full Inkfall web app in the browser.
 
 Who calls it?
     Run directly: `streamlit run app.py`
@@ -45,13 +45,13 @@ def init_session_state():
 
 
 def render_header():
-    st.set_page_config(page_title="DocuMind AI", page_icon="📚", layout="wide")
+    st.set_page_config(page_title="Inkfall", page_icon="📖", layout="wide")
     st.markdown(
         """
         <div style="text-align:center; padding: 10px 0 25px 0;">
-            <h1>📚 DocuMind AI</h1>
+            <h1>📖 Inkfall</h1>
             <p style="color: #6b7280; font-size: 1.05rem;">
-                Your personal study assistant — upload your documents and chat with them.
+                When knowledge falls into place — upload your documents and chat with them.
             </p>
         </div>
         """,
