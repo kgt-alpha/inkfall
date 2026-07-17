@@ -44,13 +44,209 @@ def init_session_state():
         st.session_state.stats = None
 
 
-def render_header():
-    st.set_page_config(page_title="Inkfall", page_icon="📖", layout="wide")
+def inject_custom_css():
     st.markdown(
         """
-        <div style="text-align:center; padding: 10px 0 25px 0;">
-            <h1>📖 Inkfall</h1>
-            <p style="color: #6b7280; font-size: 1.05rem;">
+        <style>
+        @import url('https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,500;9..144,600&family=Inter:wght@400;500;600&display=swap');
+
+        html, body, [class*="css"] {
+            font-family: 'Inter', sans-serif;
+        }
+
+        /* ---- App shell with layered texture ---- */
+        .stApp {
+            background-color: #12141A;
+            background-image:
+                radial-gradient(circle at 12% 8%, rgba(79, 209, 197, 0.08), transparent 38%),
+                radial-gradient(circle at 88% 92%, rgba(217, 166, 87, 0.06), transparent 42%),
+                repeating-linear-gradient(135deg, rgba(255,255,255,0.012) 0px, rgba(255,255,255,0.012) 1px, transparent 1px, transparent 4px);
+            color: #ECE8DD;
+        }
+
+        [data-testid="stHeader"] {
+            background: transparent;
+            border-bottom: 1px solid #262A35;
+        }
+
+        [data-testid="stToolbar"] * {
+            color: #8890A0 !important;
+        }
+
+        .block-container {
+            padding-top: 2rem;
+        }
+
+        /* ---- Default text colors ---- */
+        .stApp, .stApp p, .stApp span, .stApp label,
+        .stApp h1, .stApp h2, .stApp h3, .stApp h4 {
+            color: #ECE8DD;
+        }
+
+        /* ---- Sidebar ---- */
+        section[data-testid="stSidebar"] {
+            background: #181B23;
+            border-right: 1px solid #262A35;
+            box-shadow: inset -12px 0 24px -20px rgba(79, 209, 197, 0.15);
+        }
+
+        section[data-testid="stSidebar"] * {
+            color: #ECE8DD !important;
+        }
+
+        section[data-testid="stSidebar"] .stButton button {
+            background: #4FD1C5;
+            color: #12141A !important;
+            border: none;
+            font-weight: 600;
+            border-radius: 8px;
+            transition: all 0.15s ease;
+        }
+
+        section[data-testid="stSidebar"] .stButton button:hover {
+            background: #3FBDB0;
+            transform: translateY(-1px);
+        }
+
+        section[data-testid="stSidebar"] .stButton button p {
+            color: #12141A !important;
+        }
+
+        /* ---- File uploader — broad selectors to survive Streamlit version drift ---- */
+        div[data-testid="stFileUploader"] section,
+        div[data-testid="stFileUploaderDropzone"],
+        div[data-testid="stFileUploader"] > section > div {
+            background: #1F232D !important;
+            border: 1.5px dashed #3A4150 !important;
+            border-radius: 10px !important;
+        }
+
+        div[data-testid="stFileUploader"] section:hover {
+            border-color: #4FD1C5 !important;
+        }
+
+        div[data-testid="stFileUploader"] * {
+            color: #ECE8DD !important;
+        }
+
+        div[data-testid="stFileUploader"] small {
+            color: #8890A0 !important;
+        }
+
+        div[data-testid="stFileUploader"] button {
+            background: #262A35 !important;
+            color: #ECE8DD !important;
+            border: 1px solid #3A4150 !important;
+            border-radius: 6px !important;
+        }
+
+        div[data-testid="stFileUploader"] svg {
+            fill: #4FD1C5 !important;
+        }
+
+        /* ---- Metrics ---- */
+        [data-testid="stMetricValue"] {
+            color: #4FD1C5 !important;
+        }
+        [data-testid="stMetricLabel"] {
+            color: #8890A0 !important;
+        }
+
+        /* ---- Chat messages ---- */
+        [data-testid="stChatMessage"] {
+            background: #181B23;
+            border: 1px solid #262A35;
+            border-radius: 12px;
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.25);
+        }
+
+        [data-testid="stChatMessage"] * {
+            color: #ECE8DD;
+        }
+
+        /* ---- Chat input ---- */
+        [data-testid="stChatInput"] {
+            background: #181B23 !important;
+            border: 1px solid #262A35 !important;
+            border-radius: 12px;
+        }
+
+        [data-testid="stChatInput"] textarea {
+            background: transparent !important;
+            color: #ECE8DD !important;
+        }
+
+        [data-testid="stChatInput"] textarea::placeholder {
+            color: #6B7280 !important;
+        }
+
+        [data-testid="stBottomBlockContainer"] {
+            background: linear-gradient(180deg, transparent, #12141A 40%);
+        }
+
+        /* ---- Expander (Sources) ---- */
+        .streamlit-expanderHeader {
+            color: #D9A657 !important;
+            background: #181B23 !important;
+            border: 1px solid #262A35;
+            border-radius: 8px;
+        }
+
+        .streamlit-expanderContent {
+            background: #14161D !important;
+            color: #ECE8DD !important;
+            border: 1px solid #262A35;
+            border-top: none;
+        }
+
+        /* ---- Divider ---- */
+        hr {
+            border-color: #262A35 !important;
+        }
+
+        /* ---- Ink drop signature ---- */
+        .ink-drop-wrap {
+            display: flex;
+            justify-content: center;
+            height: 22px;
+        }
+
+        .ink-drop {
+            width: 12px;
+            height: 12px;
+            background: #4FD1C5;
+            border-radius: 50% 50% 50% 0;
+            transform: rotate(45deg);
+            animation: drip 2.4s ease-in-out infinite;
+            box-shadow: 0 0 14px rgba(79, 209, 197, 0.7);
+        }
+
+        @keyframes drip {
+            0%   { transform: translateY(-4px) rotate(45deg); opacity: 0; }
+            30%  { opacity: 1; }
+            55%  { transform: translateY(12px) rotate(45deg); opacity: 1; }
+            65%  { transform: translateY(12px) rotate(45deg); opacity: 0; }
+            100% { transform: translateY(-4px) rotate(45deg); opacity: 0; }
+        }
+        </style>
+        """,
+        unsafe_allow_html=True
+    )
+
+
+def render_header():
+    st.set_page_config(page_title="Inkfall", page_icon="📖", layout="wide")
+    inject_custom_css()
+    st.markdown(
+        """
+        <div style="text-align:center; padding: 6px 0 25px 0;">
+            <div class="ink-drop-wrap"><div class="ink-drop"></div></div>
+            <h1 style="font-family: 'Fraunces', serif; font-weight: 600;
+                       font-size: 2.6rem; margin: 6px 0 0 0; letter-spacing: -0.5px;
+                       color: #ECE8DD;">
+                Inkfall
+            </h1>
+            <p style="color: #9AA2B1; font-size: 1.02rem; margin-top: 8px;">
                 When knowledge falls into place — upload your documents and chat with them.
             </p>
         </div>
