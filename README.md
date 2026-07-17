@@ -52,11 +52,6 @@ app.py                → Streamlit UI: upload, progress, chat, sources, stats
 
 ---
 
-## 📸 Screenshots
-
-_Add screenshots here once the app is running, e.g.:_
-- Landing page / upload sidebar
-- Chat interface with an answer + expanded sources
 
 ---
 
@@ -121,19 +116,3 @@ inkfall/
 ```
 
 ---
-
-## 🚧 Not Included (by design, for this version)
-
-To keep this a focused, polished, interview-ready project, the following
-were intentionally left out: login/authentication, PostgreSQL, Docker,
-Kubernetes, Redis, deployment, LangGraph, and agents.
-
----
-
-## 🔮 Future Improvements
-
-- Persist FAISS index to disk so re-uploading isn't needed every session
-- Support more file types (docx, txt)
-- Add user authentication for multi-user use
-- Deploy publicly (Streamlit Community Cloud / Docker)
-- Add automated tests for each `utils` module
